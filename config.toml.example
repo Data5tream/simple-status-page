@@ -1,0 +1,9 @@
+[webserver]
+host = "127.0.0.1"
+port = 8080
+
+[watcher]
+interval = 30
+watchlist = [
+    { name = "Server 1", ip = "127.0.0.1", url = "http://localhost" }
+]
