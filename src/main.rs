@@ -1,13 +1,36 @@
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use config::Config;
+use redis::Commands;
 
-use crate::watcher::Watchpoint;
+use crate::cache::get_redis_connection;
+use crate::watcher::{Watchpoint, WatchpointStatus};
 
+mod cache;
 mod watcher;
 
 #[get("/")]
 async fn hello() -> impl Responder {
     HttpResponse::Ok().body("Hello world!")
+}
+
+#[get("/status")]
+async fn status() -> impl Responder {
+    let mut con = get_redis_connection();
+    let watchpoints: Vec<Watchpoint> = match con.get::<&str, String>("config:ids") {
+        Ok(k) => serde_json::from_str(k.as_str()).unwrap(),
+        Err(_e) => return HttpResponse::InternalServerError().finish(),
+    };
+
+    let mut data: Vec<WatchpointStatus> = Vec::new();
+    for watchpoint in watchpoints {
+        let status = con
+            .get::<&str, u16>(format!("status:{}:status-code", watchpoint.id).as_str())
+            .unwrap();
+
+        data.push(WatchpointStatus { watchpoint, status });
+    }
+
+    HttpResponse::Ok().json(data)
 }
 
 #[actix_web::main]
@@ -20,7 +43,9 @@ async fn main() -> std::io::Result<()> {
         .build()
         .expect("Invalid or missing config file");
 
-    let raw_watchlist = settings.get_array("watcher.watchlist").expect("Invalid watch list");
+    let raw_watchlist = settings
+        .get_array("watcher.watchlist")
+        .expect("Invalid watch list");
 
     // Make sure we have something to watch
     if raw_watchlist.is_empty() {
@@ -33,7 +58,14 @@ async fn main() -> std::io::Result<()> {
         watchlist.push(i.clone().try_deserialize().expect("invalid config value"));
     }
 
-    let interval = settings.get::<u32>("watcher.interval").expect("Invalid interval");
+    let mut con = get_redis_connection();
+    let _: () = con
+        .set("config:ids", serde_json::to_string(&watchlist).unwrap())
+        .unwrap();
+
+    let interval = settings
+        .get::<u32>("watcher.interval")
+        .expect("Invalid interval");
 
     actix_rt::spawn(async move {
         watcher::start_watcher(interval, &watchlist).await;
@@ -43,10 +75,7 @@ async fn main() -> std::io::Result<()> {
     let host = settings.get_string("webserver.host").expect("Invalid host");
     let port = settings.get::<u16>("webserver.port").expect("Invalid port");
 
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-    })
+    HttpServer::new(|| App::new().service(hello).service(status))
         .bind((host, port))?
         .run()
         .await
