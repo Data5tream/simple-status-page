@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
 use config::Config;
 use redis::Commands;
@@ -75,8 +76,15 @@ async fn main() -> std::io::Result<()> {
     let host = settings.get_string("webserver.host").expect("Invalid host");
     let port = settings.get::<u16>("webserver.port").expect("Invalid port");
 
-    HttpServer::new(|| App::new().service(hello).service(status))
-        .bind((host, port))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        let cors = Cors::permissive()
+            .allowed_origin("http://127.0.0.1:5173")
+            .allowed_methods(vec!["GET"])
+            .max_age(3600);
+
+        App::new().wrap(cors).service(status).service(hello)
+    })
+    .bind((host, port))?
+    .run()
+    .await
 }
