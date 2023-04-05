@@ -1,0 +1,33 @@
+:root {
+	--c-white: #ddd;
+	--c-black: #333;
+	--c-gray: #666;
+	--c-green: #4caf50;
+	--c-yellow: #ffeb3b;
+	--c-red: #f44336;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.app {
+	display: grid;
+	min-height: 100vh;
+	grid-template-rows: 1fr auto;
+}
+
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
