@@ -1,9 +1,10 @@
-use chrono::{Local, Utc};
+use actix_rt::time::sleep;
 use redis::Commands;
 use serde::{Deserialize, Serialize};
-use tokio_schedule::{every, Job};
+use std::time::Duration;
 
-use crate::cache::get_redis_connection;
+use crate::cache::{get_redis_connection, get_watchpoints};
+use crate::get_config;
 
 #[derive(Deserialize, Serialize)]
 pub struct Watchpoint {
@@ -19,43 +20,59 @@ pub struct WatchpointStatus {
     pub status: u16,
 }
 
-async fn run_watcher(watchlist: &Vec<Watchpoint>) -> Result<(), Box<dyn std::error::Error>> {
-    println!("Running watchers - {:?}", Local::now());
+/// Check a watchpoints status and save it to redis
+async fn check_watchpoint(wp: Watchpoint) {
+    println!(" - Run watcher for {} - {}", wp.name, wp.ip);
 
     let mut con = get_redis_connection();
 
-    for wp in watchlist {
-        println!(" - Run watcher for {} - {}", wp.name, wp.ip);
-        let res = reqwest::get(&wp.url).await;
-        match res {
-            Ok(response) => {
-                con.set(
+    let res = reqwest::get(&wp.url).await;
+    match res {
+        Ok(response) => {
+            let _: () = con
+                .set(
                     format!("status:{}:status-code", wp.id),
                     response.status().as_u16(),
-                )?;
-            }
-            Err(_err) => {
-                con.set(format!("status:{}:status-code", wp.id), 999)?;
-            }
+                )
+                .unwrap();
         }
-    }
-
-    Ok(())
+        Err(_err) => {
+            let _: () = con
+                .set(format!("status:{}:status-code", wp.id), 999)
+                .unwrap();
+        }
+    };
 }
 
-pub async fn start_watcher(interval: u32, watchlist: &Vec<Watchpoint>) {
-    // run initial scan
-    run_watcher(watchlist)
-        .await
-        .expect("unable to perform checks");
+/// Get config from redis and ran watchpoints in parallel
+async fn cron_job() {
+    let settings = get_config();
 
-    let every_second = every(interval)
-        .seconds()
-        .in_timezone(&Utc)
-        .perform(|| async {
-            run_watcher(watchlist)
-                .await
-                .expect("unable to perform checks");
+    loop {
+        // Get interval from cache
+        let interval = settings
+            .get::<u64>("watcher.interval")
+            .expect("Invalid interval");
+
+        // Run watcher in separate thread
+        actix_rt::spawn(async {
+            // Get watchpoints and run watcher
+            let watchpoints = get_watchpoints().unwrap();
+            for wp in watchpoints {
+                actix_rt::spawn(async move {
+                    check_watchpoint(wp).await;
+                });
+            }
         });
-    every_second.await;
+
+        // Wait for next execution
+        sleep(Duration::from_secs(interval)).await;
+    }
+}
+
+/// Set up the watcher thread
+pub fn setup_watcher() {
+    actix_rt::spawn(async {
+        cron_job().await;
+    });
 }

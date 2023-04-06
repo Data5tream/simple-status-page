@@ -2,8 +2,11 @@
 host = "127.0.0.1"
 port = 8080
 
+[redis]
+url = "redis://127.0.0.1:6379/0"
+
 [watcher]
 interval = 30
 watchlist = [
-    { name = "Server 1", ip = "127.0.0.1", url = "http://localhost" }
+    { id = "serv", name = "Server 1", ip = "127.0.0.1", url = "http://localhost:8080/" }
 ]
