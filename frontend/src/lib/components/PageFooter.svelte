@@ -4,7 +4,7 @@
 	</div>
 </footer>
 
-<style>
+<style lang="scss">
 	footer {
 		width: 100%;
 		padding: 16px 0 8px;
@@ -19,11 +19,16 @@
 		font-size: 16px;
 	}
 
-	a, a:visited {
-      color: var(--c-white);
-	}
-	a:hover, a:active {
+	a {
+		&,
+		&:visited {
+			color: var(--c-white);
+		}
+
+		&:hover,
+		&:active {
 			background: var(--c-white);
-      color: var(--c-black);
+			color: var(--c-black);
+		}
 	}
 </style>

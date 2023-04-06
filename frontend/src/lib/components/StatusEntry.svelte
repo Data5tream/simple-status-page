@@ -14,11 +14,31 @@
 	</div>
 </div>
 
-<style>
+<style lang="scss">
 	.watchpoint {
+		position: relative;
 		flex: 1 0 0;
 		border: 1px solid var(--c-black);
 		min-width: 300px;
+
+		&:after {
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			border: 2px solid var(--c-black);
+			border-top: 0;
+			border-left: 0;
+			width: 33.3334%;
+			height: 25%;
+			transition: all 0.3s;
+		}
+
+		&:hover:after {
+			width: 50%;
+			height: 40%;
+		}
 	}
 
 	h4 {

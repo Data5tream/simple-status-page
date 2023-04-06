@@ -17,7 +17,7 @@
 </main>
 <PageFooter />
 
-<style>
+<style lang="scss">
 	main {
 		width: 100%;
 		max-width: 1400px;
@@ -30,10 +30,11 @@
 		color: var(--c-white);
 		padding: 8px 16px 8px 8px;
 		font-family: monospace;
-	}
-	h1:after {
-		content: '_';
-		animation: blink 2s infinite;
+
+		&:after {
+			content: '_';
+			animation: blink 2s infinite;
+		}
 	}
 
 	.error {
