@@ -1,3 +1,4 @@
+use log::{error, warn};
 use redis::{Commands, Connection};
 
 use crate::get_config;
@@ -10,10 +11,17 @@ pub fn get_redis_connection() -> Connection {
         .get_string("redis.url")
         .expect("unable to get redis string!");
 
-    redis::Client::open(redis_url)
+    match redis::Client::open(redis_url)
         .expect("unable create redis client")
         .get_connection()
-        .expect("unable to get redis connection")
+    {
+        Ok(con) => con,
+        Err(_) => {
+            let msg = "Unable to get redis connection";
+            error!("{}", msg);
+            panic!("{}", msg)
+        }
+    }
 }
 
 /// Load the app configuration into memory (redis)
@@ -26,7 +34,7 @@ pub fn load_config() -> bool {
 
     // Make sure we have something to watch
     if raw_watchlist.is_empty() {
-        println!("No entries in watchlist! Nothing to do");
+        warn!("No entries in watchlist! Nothing to do");
         return false;
     }
 

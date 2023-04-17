@@ -1,4 +1,5 @@
 use actix_rt::time::sleep;
+use log::debug;
 use redis::Commands;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
@@ -22,7 +23,7 @@ pub struct WatchpointStatus {
 
 /// Check a watchpoints status and save it to redis
 async fn check_watchpoint(wp: Watchpoint) {
-    println!(" - Run watcher for {} - {}", wp.name, wp.ip);
+    debug!(" - Run watcher for {} - {}", wp.name, wp.ip);
 
     let mut con = get_redis_connection();
 
