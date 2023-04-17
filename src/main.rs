@@ -1,4 +1,5 @@
 use actix_cors::Cors;
+use actix_files::Files;
 use actix_web::{App, HttpServer};
 use log::{info, warn};
 
@@ -40,7 +41,10 @@ async fn main() -> std::io::Result<()> {
             .allowed_methods(vec!["GET"])
             .max_age(3600);
 
-        App::new().wrap(cors).service(status)
+        App::new()
+            .wrap(cors)
+            .service(status)
+            .service(Files::new("/", "./web").index_file("index.html"))
     })
     .bind((host, port))?
     .run()
