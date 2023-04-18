@@ -3,13 +3,23 @@
 	import StatusIcon from './StatusIcon.svelte';
 
 	export let data: Watchpoint;
+
+	let statusMsg = '';
+	$: if (data) {
+		if (data.status < 600) {
+			statusMsg = `${data.status}`;
+		} else if (data.status === 600) {
+			statusMsg = 'Invalid DNS';
+		} else if (data.status === 601) {
+			statusMsg = 'TLS validation error';
+		}
+	}
 </script>
 
 <div class="watchpoint">
 	<h4>{data.watchpoint.name}</h4>
 	<div class="content">
-		Status: <StatusIcon status={data.status} />
-		{data.status}<br />
+		Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}<br />
 		URL: <a href={data.watchpoint.url} class="url">{data.watchpoint.url}</a>
 	</div>
 </div>
