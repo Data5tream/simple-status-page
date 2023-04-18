@@ -1,0 +1,6 @@
+target
+config*.toml
+Dockerfile
+docker-compose.yml
+README.md
+*.log
