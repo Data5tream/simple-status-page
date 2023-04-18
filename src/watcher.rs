@@ -37,9 +37,28 @@ async fn check_watchpoint(wp: Watchpoint) {
                 )
                 .unwrap();
         }
-        Err(_err) => {
+        Err(err) => {
+            // Standard catch-all error code
+            let mut status = 999;
+
+            if err.is_connect() {
+                // Handle connection errors
+                let err_msg = err.to_string();
+                if err_msg.contains("dns error: failed to lookup address information: Name or service not known") {
+                    // DNS lookup failed
+                    status = 600;
+                } else if err_msg.contains("(unable to get local issuer certificate)") {
+                    // TLS error
+                    status = 601;
+                }
+            } else if err.is_status() {
+                // Handle standard HTTP status codes
+                status = err.status().unwrap().as_u16();
+            }
+
+            // Save status code to cache
             let _: () = con
-                .set(format!("status:{}:status-code", wp.id), 999)
+                .set(format!("status:{}:status-code", wp.id), status)
                 .unwrap();
         }
     };
