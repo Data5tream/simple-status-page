@@ -5,6 +5,7 @@ RUN npm install -g pnpm
 COPY frontend .
 RUN pnpm i
 ENV NODE_ENV=production
+ENV PUBLIC_API_URL=""
 RUN pnpm run build
 
 FROM rust:1.68 AS backend

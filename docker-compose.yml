@@ -1,17 +1,19 @@
+version: '3'
+
 services:
   redis:
     image: redis:alpine
     networks:
       - backend
   app:
-    image: ghcr.io/data5tream/status-page-test:latest
+    image: ghcr.io/data5tream/simple-status-page:latest
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
       - default
       - backend
     volumes:
-      - ./config.toml:/config.toml
+      - ./config.toml:/config.toml:ro
 networks:
   default:
   backend:
