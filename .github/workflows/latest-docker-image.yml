@@ -1,0 +1,14 @@
+name: Build latest image
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the image
+        run: docker build . --file Dockerfile --tag simple-status-page:latest
