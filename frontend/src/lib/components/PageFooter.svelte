@@ -1,13 +1,13 @@
 <footer>
 	<div class="content">
-		&copy; {new Date().getFullYear()}, Simon Stefan Barth | <a href='https://github.com/Data5tream' target='_blank' rel='noreferrer'>Github</a>
+		&copy; {new Date().getFullYear()}, Simon Stefan Barth | <a href='https://github.com/Data5tream/simple-status-page' target='_blank' rel='noreferrer'>GitHub</a>
 	</div>
 </footer>
 
 <style lang="scss">
 	footer {
 		width: 100%;
-		padding: 16px 0 8px;
+		padding: 12px 0 8px;
 		background: var(--c-black);
 		color: var(--c-white);
 	}
@@ -16,7 +16,7 @@
 		max-width: 1400px;
 		margin: 0 auto;
 		font-family: monospace;
-		font-size: 16px;
+		font-size: 14px;
 	}
 
 	a {

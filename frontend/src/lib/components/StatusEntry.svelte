@@ -49,6 +49,19 @@
 			width: 50%;
 			height: 40%;
 		}
+
+    a {
+      &,
+      &:visited {
+        color: var(--c-black);
+      }
+
+      &:hover,
+      &:active {
+        background: var(--c-black);
+        color: var(--c-white);
+      }
+    }
 	}
 
 	h4 {
