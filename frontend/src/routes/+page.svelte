@@ -9,7 +9,7 @@
 
 <main>
 	<h1>Simple Status Page</h1>
-	{#if !data.status.is_valid}
+	{#if data.status && !data.status.is_valid}
 		<span class="error">Error loading status data :(</span>
 	{:else}
 		<StatusList bind:data={data.status.watchpoints} />
@@ -19,9 +19,13 @@
 
 <style lang="scss">
 	main {
-		width: 100%;
 		max-width: 1400px;
-		margin: 0 auto;
+		margin: 0 16px;
+
+		@media screen and (min-width: 1432px) {
+			width: 100%;
+			margin: 0 auto;
+    }
 	}
 
 	h1 {

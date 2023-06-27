@@ -14,9 +14,14 @@
 
 	.content {
 		max-width: 1400px;
-		margin: 0 auto;
+		margin: 0 16px;
 		font-family: monospace;
 		font-size: 14px;
+
+    @media screen and (min-width: 1432px) {
+      width: 100%;
+      margin: 0 auto;
+    }
 	}
 
 	a {
