@@ -11,6 +11,9 @@ on:
     branches:
       - master
 
+permissions:
+  checks: write
+
 jobs:
   run-backend-linter:
     name: Run backend linter

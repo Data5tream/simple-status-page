@@ -11,6 +11,9 @@ on:
     branches:
       - master
 
+permissions:
+  checks: write
+
 jobs:
   run-frontend-linters:
     name: Run frontend linters
