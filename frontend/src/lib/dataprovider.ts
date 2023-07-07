@@ -1,41 +1,41 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 
 export interface Watchpoint {
-	status: number;
-	watchpoint: {
-		id: string;
-		ip: string;
-		name: string;
-		url: string;
-	};
+  status: number;
+  watchpoint: {
+    id: string;
+    ip: string;
+    name: string;
+    url: string;
+  };
 }
 
 export interface StatusData {
-	is_valid: boolean;
-	watchpoints?: Array<Watchpoint>;
+  is_valid: boolean;
+  watchpoints?: Array<Watchpoint>;
 }
 
 export const loadStatus = async (fetch: {
-	(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
-	(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+  (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+  (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 }): Promise<StatusData> => {
-	try {
-		const res = await fetch(`${PUBLIC_API_URL}/status`);
-		if (res.status !== 200) {
-			return {
-				is_valid: false
-			};
-		}
+  try {
+    const res = await fetch(`${PUBLIC_API_URL}/status`);
+    if (res.status !== 200) {
+      return {
+        is_valid: false,
+      };
+    }
 
-		const watchpoints = await res.json();
+    const watchpoints = await res.json();
 
-		return {
-			is_valid: true,
-			watchpoints
-		};
-	} catch (_) {
-		return {
-			is_valid: false
-		};
-	}
+    return {
+      is_valid: true,
+      watchpoints,
+    };
+  } catch (_) {
+    return {
+      is_valid: false,
+    };
+  }
 };
