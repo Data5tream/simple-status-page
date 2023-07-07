@@ -1,5 +1,12 @@
 # Simple Status Page
 
+[![ci](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml)
+[![Lint backend](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
+[![Lint frontend](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/data5tream/simple-status-page)
+![GitHub](https://img.shields.io/github/license/data5tream/simple-status-page)
+
+
 A web app that does status checking. Configured through a simple `config.toml` (or environment variables).
 
 ## Usage
