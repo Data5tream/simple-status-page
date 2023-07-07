@@ -1,8 +1,10 @@
+import type { PageLoad } from './$types';
+
 import { loadStatus } from '$lib/dataprovider';
 
-/** @type {import('./$types').PageLoad} */
-export const load = async () => {
+export const load = (async ({ fetch, depends }) => {
+	depends('app:statusList');
 	return {
-		status: await loadStatus()
+		status: await loadStatus(fetch)
 	};
-};
+}) satisfies PageLoad;

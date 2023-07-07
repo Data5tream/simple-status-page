@@ -15,7 +15,10 @@ export interface StatusData {
 	watchpoints?: Array<Watchpoint>;
 }
 
-export const loadStatus = async (): Promise<StatusData> => {
+export const loadStatus = async (fetch: {
+	(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+	(input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
+}): Promise<StatusData> => {
 	try {
 		const res = await fetch(`${PUBLIC_API_URL}/status`);
 		if (res.status !== 200) {
