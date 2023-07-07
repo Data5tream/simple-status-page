@@ -1,0 +1,29 @@
+name: Lint backend
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - 'frontend'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run-backend-linter:
+    name: Run backend linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Install toolchain
+        run: rustup show active-toolchain
+
+      - name: Run clippy
+        uses: wearerequired/lint-action@v2
+        with:
+          clippy: true
