@@ -25,7 +25,10 @@ jobs:
         with:
           node-version: 20
 
-      # ESLint and Prettier must be in `package.json`
+      - name: Enable PNPM
+        run: corepack enable
+        working-directory: ./frontend
+
       - name: Install Node.js dependencies
         run: pnpm ci
         working-directory: ./frontend
