@@ -30,7 +30,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Install Node.js dependencies
-        run: pnpm ci
+        run: pnpm i
         working-directory: ./frontend
 
       - name: Run linters
