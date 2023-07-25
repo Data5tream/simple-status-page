@@ -4,9 +4,9 @@ export interface Watchpoint {
   status: number;
   watchpoint: {
     id: string;
-    ip: string;
     name: string;
-    url: string;
+    kind: string;
+    target: string;
   };
 }
 

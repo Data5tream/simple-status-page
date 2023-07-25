@@ -6,7 +6,11 @@
 
   let statusMsg = '';
   $: if (data) {
-    if (data.status < 600) {
+    if (data.status === 200) {
+      statusMsg = 'OK (200)';
+    } else if (data.status === 404) {
+      statusMsg = `Not found (${data.status})`;
+    } else if (data.status < 600) {
       statusMsg = `${data.status}`;
     } else if (data.status === 600) {
       statusMsg = 'Invalid DNS';
@@ -20,7 +24,9 @@
   <h4>{data.watchpoint.name}</h4>
   <div class="content">
     Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}<br />
-    URL: <a href={data.watchpoint.url} class="url">{data.watchpoint.url}</a>
+    {#if data.watchpoint.kind === 'url'}
+      URL: <a href={data.watchpoint.target} class="url">{data.watchpoint.target}</a>
+    {/if}
   </div>
 </div>
 

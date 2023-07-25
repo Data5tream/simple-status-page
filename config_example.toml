@@ -9,7 +9,7 @@ url = "redis://redis:6379/0"
 [watcher]
 interval = 30
 watchlist = [
-    { id = "serv", name = "Local dev", ip = "127.0.0.1", url = "http://localhost:8080/" }
+    { id = "serv", name = "Local dev", kind = "url", target = "http://localhost:8080/" }
 ]
 
 [log]

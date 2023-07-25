@@ -11,8 +11,8 @@ use crate::get_config;
 pub struct Watchpoint {
     pub id: String,
     name: String,
-    ip: String,
-    url: String,
+    kind: String,
+    target: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -23,45 +23,47 @@ pub struct WatchpointStatus {
 
 /// Check a watchpoints status and save it to redis
 async fn check_watchpoint(wp: Watchpoint) {
-    debug!(" - Run watcher for {} - {}", wp.name, wp.ip);
+    debug!(" - Run watcher of type {} for {}", wp.kind, wp.name);
 
     let mut con = get_redis_connection();
 
-    let res = reqwest::get(&wp.url).await;
-    match res {
-        Ok(response) => {
-            let _: () = con
-                .set(
-                    format!("status:{}:status-code", wp.id),
-                    response.status().as_u16(),
-                )
-                .unwrap();
-        }
-        Err(err) => {
-            // Standard catch-all error code
-            let mut status = 999;
-
-            if err.is_connect() {
-                // Handle connection errors
-                let err_msg = err.to_string();
-                if err_msg.contains("dns error: failed to lookup address information: Name or service not known") {
-                    // DNS lookup failed
-                    status = 600;
-                } else if err_msg.contains("(unable to get local issuer certificate)") {
-                    // TLS error
-                    status = 601;
-                }
-            } else if err.is_status() {
-                // Handle standard HTTP status codes
-                status = err.status().unwrap().as_u16();
+    if wp.kind == "target" {
+        let res = reqwest::get(&wp.target).await;
+        match res {
+            Ok(response) => {
+                let _: () = con
+                    .set(
+                        format!("status:{}:status-code", wp.id),
+                        response.status().as_u16(),
+                    )
+                    .unwrap();
             }
+            Err(err) => {
+                // Standard catch-all error code
+                let mut status = 999;
 
-            // Save status code to cache
-            let _: () = con
-                .set(format!("status:{}:status-code", wp.id), status)
-                .unwrap();
-        }
-    };
+                if err.is_connect() {
+                    // Handle connection errors
+                    let err_msg = err.to_string();
+                    if err_msg.contains("dns error: failed to lookup address information: Name or service not known") {
+                        // DNS lookup failed
+                        status = 600;
+                    } else if err_msg.contains("(unable to get local issuer certificate)") {
+                        // TLS error
+                        status = 601;
+                    }
+                } else if err.is_status() {
+                    // Handle standard HTTP status codes
+                    status = err.status().unwrap().as_u16();
+                }
+
+                // Save status code to cache
+                let _: () = con
+                    .set(format!("status:{}:status-code", wp.id), status)
+                    .unwrap();
+            }
+        };
+    }
 }
 
 /// Get config from redis and ran watchpoints in parallel
