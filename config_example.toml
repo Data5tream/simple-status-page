@@ -1,17 +1,5 @@
-[webserver]
-host = "0.0.0.0"
-port = 8080
-url = "http://localhost"
-
-[redis]
-url = "redis://redis:6379/0"
-
 [watcher]
 interval = 30
 watchlist = [
     { id = "serv", name = "Local dev", kind = "url", target = "http://localhost:8080/" }
 ]
-
-[log]
-level = "info"
-path = "/var/log/status-page.log"
