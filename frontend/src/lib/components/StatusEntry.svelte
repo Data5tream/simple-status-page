@@ -25,7 +25,7 @@
   <div class="content">
     Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}<br />
     {#if data.watchpoint.kind === 'url'}
-      URL: <a href={data.watchpoint.target} class="url">{data.watchpoint.target}</a>
+      URL: <a href={data.watchpoint.target} class="url" target='_blank' rel='noreferrer'>{data.watchpoint.target}</a>
     {/if}
   </div>
 </div>
