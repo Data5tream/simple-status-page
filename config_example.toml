@@ -1,5 +1,6 @@
 [watcher]
 interval = 30
 watchlist = [
-    { id = "serv", name = "Local dev", kind = "url", target = "http://localhost:8080/" }
+    { id = "localurl", name = "Local dev", kind = "url", target = "http://localhost:8080/" },
+    { id = "localkw", name = "Local keyword", kind = "keyword", target = "http://localhost:8080/", keyword = "hello world!" }
 ]
