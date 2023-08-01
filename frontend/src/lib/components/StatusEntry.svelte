@@ -16,18 +16,25 @@
       statusMsg = 'Invalid DNS';
     } else if (data.status === 601) {
       statusMsg = 'TLS validation error';
+    } else if (data.status === 604) {
+      statusMsg = 'Keyword not found';
+    } else if (data.status === 610) {
+      statusMsg = 'Unable to parse HTML content';
     }
   }
 </script>
 
 <div class="watchpoint">
   <h4>{data.watchpoint.name}</h4>
-  <div class="content">
-    Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}<br />
-    {#if data.watchpoint.kind === 'url'}
-      URL: <a href={data.watchpoint.target} class="url" target='_blank' rel='noreferrer'>{data.watchpoint.target}</a>
+  <ul class="content">
+    <li>Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}</li>
+    {#if data.watchpoint.kind === 'url' || data.watchpoint.kind === 'keyword' }
+      <li>URL: <a href={data.watchpoint.target} class="url" target='_blank' rel='noreferrer'>{data.watchpoint.target}</a></li>
     {/if}
-  </div>
+    {#if data.watchpoint.kind === 'keyword' }
+      <li>Keyword: <span class='keyword'>{data.watchpoint.keyword}</span></li>
+    {/if}
+  </ul>
 </div>
 
 <style lang="scss">
@@ -80,9 +87,11 @@
 
   .content {
     padding: 16px 8px 8px;
+    margin: 0;
+    list-style: none;
   }
 
-  .url {
+  .url, .keyword {
     font-family: monospace;
   }
 </style>

@@ -7,6 +7,7 @@ export interface Watchpoint {
     name: string;
     kind: string;
     target: string;
+    keyword?: string;
   };
 }
 
