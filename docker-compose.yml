@@ -8,12 +8,12 @@ services:
   app:
     image: ghcr.io/data5tream/simple-status-page:latest
     environment:
-      - APP_WEBSERVER_HOST="0.0.0.0"
-      - APP_WEBSERVER_PORT="8080"
-      - APP_WEBSERVER_URL="http://localhost"
-      - APP_REDIS_URL="redis://redis:6379/0"
-      - APP_LOG_LEVEL="info"
-      - APP_LOG_PATH="/var/log/status-page.log"
+      - APP_WEBSERVER_HOST=0.0.0.0
+      - APP_WEBSERVER_PORT=8080
+      - APP_WEBSERVER_URL=http://localhost:8080
+      - APP_REDIS_URL=redis://redis:6379/0
+      - APP_LOG_LEVEL=info
+      - APP_LOG_PATH=/var/log/status-page.log
     ports:
       - "8080:8080"
     networks:
