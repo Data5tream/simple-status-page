@@ -27,6 +27,15 @@ Configuration can also be done via environmental variables. The env vars take pr
 
 ## Development
 
+### Environment
+
+The following environment variables need to be set (defaults for a local environment with a running redis instance):
+
+- `APP_REDIS_URL=redis://localhost:6379/0`
+- `APP_WEBSERVER_HOST=0.0.0.0`
+- `APP_WEBSERVER_PORT=8000`
+- `APP_WEBSERVER_URL=http://localhost:5173`
+
 ### Backend
 
 [Actix Web](https://actix.rs/) with [Redis](https://redis.io/) as a datastore. You will need a locally available redis
