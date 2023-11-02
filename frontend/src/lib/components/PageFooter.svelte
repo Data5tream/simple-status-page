@@ -1,6 +1,6 @@
 <footer>
   <div class="content">
-    &copy; {new Date().getFullYear()}, Simon Stefan Barth |
+    &copy; {new Date().getFullYear()}, Simon Barth |
     <a href="https://github.com/Data5tream/simple-status-page" target="_blank" rel="noreferrer">GitHub</a>
   </div>
 </footer>
