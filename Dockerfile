@@ -1,4 +1,4 @@
-FROM node:21.1 AS frontend
+FROM node:21.4 AS frontend
 
 WORKDIR /frontend
 RUN npm install -g pnpm
