@@ -8,7 +8,7 @@ ENV NODE_ENV=production
 ENV PUBLIC_API_URL=""
 RUN pnpm run build
 
-FROM rust:1.74 AS backend
+FROM rust:1.77 AS backend
 WORKDIR /usr/src/status-page
 COPY ["Cargo.lock", "Cargo.toml", "./"]
 RUN cargo
