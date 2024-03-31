@@ -1,12 +1,12 @@
 <script lang="ts">
   import '$lib/main.css';
-  import PageFooter from "$lib/components/PageFooter.svelte";
-  import PageHeader from "$lib/components/PageHeader.svelte";
+  import PageFooter from '$lib/components/PageFooter.svelte';
+  import PageHeader from '$lib/components/PageHeader.svelte';
 </script>
 
 <main>
-    <PageHeader />
-        <span class="error">Error loading status data :(</span>
+  <PageHeader />
+  <span class="error">Error loading status data :(</span>
 </main>
 <PageFooter />
 

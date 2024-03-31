@@ -28,11 +28,13 @@
   <h4>{data.watchpoint.name}</h4>
   <ul class="content">
     <li>Status: <StatusIcon status={data.status} />&nbsp;{statusMsg}</li>
-    {#if data.watchpoint.kind === 'url' || data.watchpoint.kind === 'keyword' }
-      <li>URL: <a href={data.watchpoint.target} class="url" target='_blank' rel='noreferrer'>{data.watchpoint.target}</a></li>
+    {#if data.watchpoint.kind === 'url' || data.watchpoint.kind === 'keyword'}
+      <li>
+        URL: <a href={data.watchpoint.target} class="url" target="_blank" rel="noreferrer">{data.watchpoint.target}</a>
+      </li>
     {/if}
-    {#if data.watchpoint.kind === 'keyword' }
-      <li>Keyword: <span class='keyword'>{data.watchpoint.keyword}</span></li>
+    {#if data.watchpoint.kind === 'keyword'}
+      <li>Keyword: <span class="keyword">{data.watchpoint.keyword}</span></li>
     {/if}
   </ul>
 </div>
@@ -91,7 +93,8 @@
     list-style: none;
   }
 
-  .url, .keyword {
+  .url,
+  .keyword {
     font-family: monospace;
   }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { StatusData } from '$lib/dataprovider';
-  
+
   import '$lib/main.css';
 
   import PageFooter from '$lib/components/PageFooter.svelte';
