@@ -1,6 +1,5 @@
 import { env } from '$env/dynamic/public';
 
-
 export interface Watchpoint {
   status: number;
   watchpoint: {

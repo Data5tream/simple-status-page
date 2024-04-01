@@ -1,6 +1,6 @@
 [package]
 name = "simple-status-page"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 authors = ["Simon Stefan Barth"]
 description = "A simple status page web app"
@@ -8,15 +8,15 @@ license = "AGPL-3.0-or-later"
 repository = "https://github.com/Data5tream/simple-status-page/"
 
 [dependencies]
-actix-cors = "0.6.4"
+actix-cors = "0.7.0"
 actix-files = "0.6.2"
 actix-rt = "2.8.0"
 actix-web = "4"
-config = { version = "0.13.3", features = ["toml"] }
+config = { version = "0.14.0", features = ["toml"] }
 fern = "0.6.2"
 log = "0.4.17"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 time = { version = "0.3.20", features= ["formatting", "serde", "serde-human-readable"] }
-redis = "0.23.0"
-reqwest = { version = "0.11", features = ["json"] }
+redis = "0.25.2"
+reqwest = { version = "0.12.2", features = ["json"] }
