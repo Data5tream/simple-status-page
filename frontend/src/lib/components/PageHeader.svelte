@@ -14,8 +14,8 @@
 <style lang="scss">
   h1 {
     display: inline-block;
-    background: var(--c-black);
-    color: var(--c-white);
+    background: var(--c-background);
+    color: var(--c-foreground);
     padding: 8px 16px 8px 8px;
     font-family: monospace;
 

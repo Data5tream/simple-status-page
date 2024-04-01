@@ -6,11 +6,21 @@
 
 <main>
   <PageHeader />
-  <span class="error">Error loading status data :(</span>
+  <span class="error">404</span>
 </main>
 <PageFooter />
 
 <style lang="scss">
+  main {
+    max-width: 1400px;
+    margin: 0 16px;
+
+    @media screen and (min-width: 1432px) {
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
   .error {
     display: block;
     color: var(--c-red);

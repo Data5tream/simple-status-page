@@ -43,7 +43,7 @@
   .watchpoint {
     position: relative;
     flex: 1 0 0;
-    border: 1px solid var(--c-black);
+    border: 1px solid var(--c-foreground);
     min-width: 300px;
 
     &:after {
@@ -52,7 +52,7 @@
       position: absolute;
       bottom: 0;
       right: 0;
-      border: 2px solid var(--c-black);
+      border: 2px solid var(--c-foreground);
       border-top: 0;
       border-left: 0;
       width: 33.3334%;
@@ -68,20 +68,20 @@
     a {
       &,
       &:visited {
-        color: var(--c-black);
+        color: var(--c-foreground);
       }
 
       &:hover,
       &:active {
-        background: var(--c-black);
-        color: var(--c-white);
+        background: var(--c-foreground);
+        color: var(--c-background);
       }
     }
   }
 
   h4 {
-    background: var(--c-black);
-    color: var(--c-white);
+    background: var(--c-foreground);
+    color: var(--c-background);
     letter-spacing: 0.15em;
     margin: 0;
     padding: 8px;

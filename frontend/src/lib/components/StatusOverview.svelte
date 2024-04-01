@@ -35,7 +35,7 @@
     gap: 16px;
 
     li {
-      color: var(--c-white);
+      color: var(--c-background);
       padding: 0;
 
       span {
@@ -47,7 +47,7 @@
         }
 
         &:last-child {
-          background: var(--c-black);
+          background: var(--c-foreground);
         }
       }
     }

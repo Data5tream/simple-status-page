@@ -5,12 +5,24 @@
   --c-green: #4caf50;
   --c-yellow: #ffeb3b;
   --c-red: #f44336;
+  --c-background: var(--c-black);
+  --c-foreground: var(--c-white);
 }
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --c-background: var(--c-white);
+    --c-foreground: var(--c-black);
+  }
+}
+
 
 html,
 body {
   margin: 0;
   padding: 0;
+  background: var(--c-background);
+  color: var(--c-foreground);
   font-family: 'Open Sans', sans-serif;
 }
 

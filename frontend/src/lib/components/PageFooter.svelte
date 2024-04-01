@@ -9,8 +9,8 @@
   footer {
     width: 100%;
     padding: 12px 0 8px;
-    background: var(--c-black);
-    color: var(--c-white);
+    background: var(--c-foreground);
+    color: var(--c-background);
   }
 
   .content {
@@ -28,13 +28,13 @@
   a {
     &,
     &:visited {
-      color: var(--c-white);
+      color: var(--c-background);
     }
 
     &:hover,
     &:active {
-      background: var(--c-white);
-      color: var(--c-black);
+      background: var(--c-background);
+      color: var(--c-foreground);
     }
   }
 </style>
