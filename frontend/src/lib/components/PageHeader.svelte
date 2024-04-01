@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { building } from '$app/environment';
   import { env } from '$env/dynamic/public';
 
-  const title = env.PUBLIC_PAGE_TITLE ? env.PUBLIC_PAGE_TITLE : 'Simple Status Page';
+  const title = building ? 'Simple Status Page' : env.PUBLIC_PAGE_TITLE ?? 'Simple Status Page';
 </script>
 
 <svelte:head>

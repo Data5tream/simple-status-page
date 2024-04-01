@@ -1,4 +1,5 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
 
 export interface Watchpoint {
   status: number;
@@ -21,7 +22,7 @@ export const loadStatus = async (fetch: {
   (input: RequestInfo | URL, init?: RequestInit): Promise<Response>;
 }): Promise<StatusData> => {
   try {
-    const res = await fetch(`${PUBLIC_API_URL}/status`);
+    const res = await fetch(`${env.PUBLIC_API_URL}/status`);
     if (res.status !== 200) {
       return {
         is_valid: false,
