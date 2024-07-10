@@ -12,7 +12,7 @@ pub fn get_redis_connection() -> Connection {
         .expect("unable to get redis string!");
 
     match redis::Client::open(redis_url)
-        .expect("unable create redis client")
+        .expect("unable to create redis client")
         .get_connection()
     {
         Ok(con) => con,

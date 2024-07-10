@@ -13,7 +13,7 @@ pub struct Watchpoint {
     name: String,
     kind: String,
     target: String,
-    keyword: Option<String>
+    keyword: Option<String>,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -43,7 +43,9 @@ async fn check_url_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             if err.is_connect() {
                 // Handle connection errors
                 let err_msg = err.to_string();
-                if err_msg.contains("dns error: failed to lookup address information: Name or service not known") {
+                if err_msg.contains(
+                    "dns error: failed to lookup address information: Name or service not known",
+                ) {
                     // DNS lookup failed
                     status = 600;
                 } else if err_msg.contains("(unable to get local issuer certificate)") {
@@ -72,7 +74,7 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             error!("invalid keywords configuration for watchpoint {}", wp.id);
             return false;
         }
-        Some(kw) => kw
+        Some(kw) => kw,
     };
 
     let res = reqwest::get(&wp.target).await;
@@ -84,19 +86,13 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
                 Ok(txt) => {
                     if txt.contains(keyword) {
                         let _: () = con
-                            .set(
-                                format!("status:{}:status-code", wp.id),
-                                200,
-                            )
+                            .set(format!("status:{}:status-code", wp.id), 200)
                             .unwrap();
 
                         true
                     } else {
                         let _: () = con
-                            .set(
-                                format!("status:{}:status-code", wp.id),
-                                604,
-                            )
+                            .set(format!("status:{}:status-code", wp.id), 604)
                             .unwrap();
 
                         false
@@ -104,10 +100,7 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
                 }
                 Err(_) => {
                     let _: () = con
-                        .set(
-                            format!("status:{}:status-code", wp.id),
-                            610,
-                        )
+                        .set(format!("status:{}:status-code", wp.id), 610)
                         .unwrap();
 
                     false
@@ -121,7 +114,9 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             if err.is_connect() {
                 // Handle connection errors
                 let err_msg = err.to_string();
-                if err_msg.contains("dns error: failed to lookup address information: Name or service not known") {
+                if err_msg.contains(
+                    "dns error: failed to lookup address information: Name or service not known",
+                ) {
                     // DNS lookup failed
                     status = 600;
                 } else if err_msg.contains("(unable to get local issuer certificate)") {
