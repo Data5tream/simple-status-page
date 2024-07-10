@@ -19,7 +19,7 @@ docker compose up -d
 ```
 
 This will pull the latest `redis` and `simple-status-page` images and run them. The status page will be available on port
-`8080`.
+`8000`.
 
 It's recommended to run the app behind a reverse proxy that does TLS termination, like [caddy](https://caddyserver.com/).
 
