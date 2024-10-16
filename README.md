@@ -18,7 +18,7 @@ and fill out the configuration. Then run:
 docker compose up -d
 ```
 
-This will pull the latest `redis` and `simple-status-page` images and run them. The status page will be available on port
+This will pull the latest `simple-status-page` image and run it. The status page will be available on port
 `8000`.
 
 It's recommended to run the app behind a reverse proxy that does TLS termination, like [caddy](https://caddyserver.com/).
@@ -29,17 +29,15 @@ Configuration can also be done via environmental variables. The env vars take pr
 
 ### Environment
 
-The following environment variables need to be set (defaults for a local environment with a running redis instance):
+The following environment variables need to be set:
 
-- `APP_REDIS_URL=redis://localhost:6379/0`
 - `APP_WEBSERVER_HOST=0.0.0.0`
 - `APP_WEBSERVER_PORT=8000`
 - `APP_WEBSERVER_URL=http://localhost:5173`
 
 ### Backend
 
-[Actix Web](https://actix.rs/) with [Redis](https://redis.io/) as a datastore. You will need a locally available redis
-instance for development.
+[Actix Web](https://actix.rs/) with [sled](https://sled.rs/) as a datastore.
 
 ```shell
 cargo run

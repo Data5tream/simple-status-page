@@ -1,32 +1,14 @@
 use actix_cors::Cors;
 use actix_files::Files;
 use actix_web::{App, HttpServer};
-use log::{info, warn};
+use log::info;
 
-use crate::cache::load_config;
-use crate::endpoints::status;
-use crate::watcher::setup_watcher;
-use simple_status_page::{get_config, setup_logger};
-
-mod cache;
-mod endpoints;
-mod watcher;
+use simple_status_page::endpoints::status;
+use simple_status_page::setup_app;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    setup_logger().expect("Error setting up logger!");
-
-    let settings = get_config();
-
-    // Load config file into cache, exit if no watchpoints are configured
-    let has_watchpoints = load_config();
-    if !has_watchpoints {
-        warn!("No watchpoints configured! See README.md for instructions");
-        return Ok(());
-    }
-
-    // Create watcher thread
-    setup_watcher();
+    let settings = setup_app().expect("Failed to setup app");
 
     // Grab HTTP server configuration
     let host = settings.get_string("webserver.host").expect("Invalid host");
