@@ -1,20 +1,9 @@
 services:
-  redis:
-    image: redis:alpine
-    networks:
-      - backend
   app:
     image: ghcr.io/data5tream/simple-status-page:latest
     environment:
       - APP_WEBSERVER_URL=http://localhost:8080
-      - APP_REDIS_URL=redis://redis:6379/0
     ports:
       - "8080:8080"
-    networks:
-      - default
-      - backend
     volumes:
       - ./config.toml:/config.toml:ro
-networks:
-  default:
-  backend:

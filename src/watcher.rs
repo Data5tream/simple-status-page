@@ -1,13 +1,13 @@
 use actix_rt::time::sleep;
 use log::{debug, error};
-use redis::{Commands, Connection};
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
 
-use crate::cache::{get_redis_connection, get_watchpoints};
+use crate::cache::get_watchpoints;
+use crate::db::DB;
 use crate::get_config;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Watchpoint {
     pub id: String,
     name: String,
@@ -16,23 +16,28 @@ pub struct Watchpoint {
     keyword: Option<String>,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct WatchpointStatus {
     pub watchpoint: Watchpoint,
     pub status: u16,
 }
 
 /// Check a URL endpoint
-async fn check_url_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
+async fn check_url_endpoint(wp: &Watchpoint) -> bool {
     let res = reqwest::get(&wp.target).await;
+
+    let status_tree = DB
+        .open_tree("watchpoint-status")
+        .expect("failed to open watchpoint-status!");
+
     match res {
         Ok(response) => {
-            let _: () = con
-                .set(
-                    format!("status:{}:status-code", wp.id),
-                    response.status().as_u16(),
+            status_tree
+                .insert(
+                    &wp.id,
+                    bincode::serialize(&response.status().as_u16()).unwrap(),
                 )
-                .unwrap();
+                .expect("failed to insert status");
 
             true
         }
@@ -58,9 +63,9 @@ async fn check_url_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             }
 
             // Save status code to cache
-            let _: () = con
-                .set(format!("status:{}:status-code", wp.id), status)
-                .unwrap();
+            status_tree
+                .insert(&wp.id, bincode::serialize(&status).unwrap())
+                .expect("failed to insert status");
 
             false
         }
@@ -68,7 +73,7 @@ async fn check_url_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
 }
 
 /// Check a keyword endpoint
-async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
+async fn check_keyword_endpoint(wp: &Watchpoint) -> bool {
     let keyword = match wp.keyword.as_ref() {
         None => {
             error!("invalid keywords configuration for watchpoint {}", wp.id);
@@ -78,6 +83,11 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
     };
 
     let res = reqwest::get(&wp.target).await;
+
+    let status_tree = DB
+        .open_tree("watchpoint-status")
+        .expect("failed to open watchpoint-status!");
+
     match res {
         Ok(response) => {
             let body = response.text().await;
@@ -85,23 +95,23 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             match body {
                 Ok(txt) => {
                     if txt.contains(keyword) {
-                        let _: () = con
-                            .set(format!("status:{}:status-code", wp.id), 200)
-                            .unwrap();
+                        status_tree
+                            .insert(&wp.id, bincode::serialize(&200).unwrap())
+                            .expect("failed to insert status");
 
                         true
                     } else {
-                        let _: () = con
-                            .set(format!("status:{}:status-code", wp.id), 604)
-                            .unwrap();
+                        status_tree
+                            .insert(&wp.id, bincode::serialize(&604).unwrap())
+                            .expect("failed to insert status");
 
                         false
                     }
                 }
                 Err(_) => {
-                    let _: () = con
-                        .set(format!("status:{}:status-code", wp.id), 610)
-                        .unwrap();
+                    status_tree
+                        .insert(&wp.id, bincode::serialize(&610).unwrap())
+                        .expect("failed to insert status");
 
                     false
                 }
@@ -129,9 +139,9 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
             }
 
             // Save status code to cache
-            let _: () = con
-                .set(format!("status:{}:status-code", wp.id), status)
-                .unwrap();
+            status_tree
+                .insert(&wp.id, bincode::serialize(&status).unwrap())
+                .expect("failed to insert status");
 
             false
         }
@@ -142,12 +152,10 @@ async fn check_keyword_endpoint(wp: &Watchpoint, con: &mut Connection) -> bool {
 async fn check_watchpoint(wp: Watchpoint) {
     debug!(" - Run watcher of type {} for {}", wp.kind, wp.name);
 
-    let mut con = get_redis_connection();
-
     if wp.kind == "url" {
-        check_url_endpoint(&wp, &mut con).await;
+        check_url_endpoint(&wp).await;
     } else if wp.kind == "keyword" {
-        check_keyword_endpoint(&wp, &mut con).await;
+        check_keyword_endpoint(&wp).await;
     }
 }
 
@@ -164,7 +172,7 @@ async fn cron_job() {
         // Run watcher in separate thread
         actix_rt::spawn(async {
             // Get watchpoints and run watcher
-            let watchpoints = get_watchpoints().unwrap();
+            let watchpoints = get_watchpoints().expect("no watchpoints");
             for wp in watchpoints {
                 actix_rt::spawn(async move {
                     check_watchpoint(wp).await;
