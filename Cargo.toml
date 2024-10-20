@@ -1,11 +1,14 @@
 [package]
 name = "simple-status-page"
-version = "0.5.0"
+version = "0.6.0"
 edition = "2021"
 authors = ["Simon Stefan Barth"]
 description = "A simple status page web app"
 license = "AGPL-3.0-or-later"
 repository = "https://github.com/Data5tream/simple-status-page/"
+
+[lints.clippy]
+pedantic = "warn"
 
 [dependencies]
 actix-cors = "0.7.0"

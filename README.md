@@ -55,9 +55,8 @@ pnpm run dev
 
 ## License
 
-Simple Status Page - a simple status web app built with rust
-
-Copyright (C) 2023  Simon Stefan Barth
+Simple Status Page - a simple service status app built with rust
+Copyright (C) 2023-2024  Simon Stefan Barth
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
