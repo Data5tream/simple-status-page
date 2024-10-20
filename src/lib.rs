@@ -1,11 +1,26 @@
+/*
+   Simple Status Page - a simple service status app built with rust
+   Copyright (C) 2023-2024  Simon Stefan Barth
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published
+   by the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License for more details.
+
+   You should have received a copy of the GNU Affero General Public License
+   along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 use config::Config;
 use log::warn;
 use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
 
 use crate::app_config::get_config;
-use crate::cache::load_watchers;
-use crate::watcher::setup_watcher;
 
 mod app_config;
 mod cache;
@@ -13,7 +28,15 @@ mod db;
 pub mod endpoints;
 mod watcher;
 
-
+/// Set up the logger and the watcher threads
+///
+/// # Panics
+///
+/// panics when the logger cannot be created
+///
+/// # Errors
+///
+/// returns an error when no watchpoints are configured
 #[allow(clippy::result_unit_err)]
 pub fn setup_app() -> Result<Config, ()> {
     setup_logger().expect("Error setting up logger!");
@@ -22,13 +45,13 @@ pub fn setup_app() -> Result<Config, ()> {
     let settings = get_config();
 
     // Load config file into cache, exit if no watchpoints are configured
-    if load_watchers().is_err() {
+    if cache::load_watchers().is_err() {
         warn!("No watchpoints configured! See README.md for instructions");
         return Err(());
     }
 
     // Create watcher thread
-    setup_watcher();
+    watcher::setup();
 
     Ok(settings)
 }
@@ -42,19 +65,18 @@ fn setup_logger() -> Result<(), fern::InitError> {
         Err(_) => "INFO".to_string(),
     };
 
-    let log_path = match config.get_string("log.path") {
-        Ok(path) => path,
-        Err(_) => "log.log".to_string(),
-    };
+    let log_path = config
+        .get_string("log.path")
+        .unwrap_or_else(|_| "log.log".to_string());
 
+    #[allow(clippy::wildcard_in_or_patterns)]
     let level = match &*level_string {
         "TRACE" => log::LevelFilter::Trace,
         "DEBUG" => log::LevelFilter::Debug,
-        "INFO" => log::LevelFilter::Info,
         "WARN" => log::LevelFilter::Warn,
         "ERROR" => log::LevelFilter::Error,
         "OFF" => log::LevelFilter::Off,
-        _ => log::LevelFilter::Info,
+        "INFO" | _ => log::LevelFilter::Info,
     };
 
     fern::Dispatch::new()
@@ -65,7 +87,7 @@ fn setup_logger() -> Result<(), fern::InitError> {
                 record.target(),
                 record.level(),
                 message
-            ))
+            ));
         })
         .level(level)
         .chain(std::io::stdout())

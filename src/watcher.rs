@@ -92,29 +92,26 @@ async fn check_keyword_endpoint(wp: &Watchpoint) -> bool {
         Ok(response) => {
             let body = response.text().await;
 
-            match body {
-                Ok(txt) => {
-                    if txt.contains(keyword) {
-                        status_tree
-                            .insert(&wp.id, bincode::serialize(&200).unwrap())
-                            .expect("failed to insert status");
-
-                        true
-                    } else {
-                        status_tree
-                            .insert(&wp.id, bincode::serialize(&604).unwrap())
-                            .expect("failed to insert status");
-
-                        false
-                    }
-                }
-                Err(_) => {
+            if let Ok(txt) = body {
+                if txt.contains(keyword) {
                     status_tree
-                        .insert(&wp.id, bincode::serialize(&610).unwrap())
+                        .insert(&wp.id, bincode::serialize(&200).unwrap())
+                        .expect("failed to insert status");
+
+                    true
+                } else {
+                    status_tree
+                        .insert(&wp.id, bincode::serialize(&604).unwrap())
                         .expect("failed to insert status");
 
                     false
                 }
+            } else {
+                status_tree
+                    .insert(&wp.id, bincode::serialize(&610).unwrap())
+                    .expect("failed to insert status");
+
+                false
             }
         }
         Err(err) => {
@@ -186,7 +183,7 @@ async fn cron_job() {
 }
 
 /// Set up the watcher thread
-pub fn setup_watcher() {
+pub fn setup() {
     actix_rt::spawn(async {
         cron_job().await;
     });

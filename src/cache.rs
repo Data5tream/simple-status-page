@@ -58,9 +58,8 @@ pub fn get_watchpoints() -> Result<Vec<Watchpoint>, ()> {
 
 /// Get a vector with all registered watchpoints and their status
 pub fn get_watchpoint_status() -> Result<Vec<WatchpointStatus>, ()> {
-    let watchpoints = match get_watchpoints() {
-        Ok(d) => d,
-        Err(()) => return Err(()),
+    let Ok(watchpoints) = get_watchpoints() else {
+        return Err(());
     };
 
     let mut data: Vec<WatchpointStatus> = Vec::new();
