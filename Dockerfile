@@ -1,4 +1,4 @@
-FROM node:22.3 AS frontend
+FROM node:23.7 AS frontend
 
 ENV APP_WEBSERVER_HOST="0.0.0.0" APP_WEBSERVER_PORT="8000" APP_WEBSERVER_URL="http://localhost:8000" \
     APP_LOG_LEVEL="info" APP_LOG_PATH="/var/log/status-page.log"

@@ -40,7 +40,7 @@ The following environment variables need to be set:
 [Actix Web](https://actix.rs/) with [sled](https://sled.rs/) as a datastore.
 
 ```shell
-cargo run
+watchexec -w src -r cargo run
 ```
 
 ### Frontend
