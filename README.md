@@ -11,7 +11,7 @@ A web app that does status checking. Configured through a simple `config.toml` (
 
 ## Usage
 
-Copy the `docker-compose.yml` and `config_example.toml` to a local folder. Rename `config_example.toml` to `config.toml`
+Copy the `compose.yaml` and `config_example.toml` to a local folder. Rename `config_example.toml` to `config.toml`
 and fill out the configuration. Then run:
 
 ```shell
@@ -56,6 +56,7 @@ pnpm run dev
 ## License
 
 Simple Status Page - a simple service status app built with rust
+
 Copyright (C) 2023-2024  Simon Stefan Barth
 
 This program is free software: you can redistribute it and/or modify
