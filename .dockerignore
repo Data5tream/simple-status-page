@@ -5,3 +5,7 @@ Dockerfile
 docker-compose.yml
 README.md
 *.log
+frontend/.idea/
+frontend/.svelte-kit/
+frontendbuild/
+frontend/node_modules/
