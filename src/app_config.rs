@@ -22,13 +22,10 @@ pub fn load_config() {
 pub fn get_config() -> Config {
     let mut mutex = CONFIG.lock().unwrap();
 
-    match &mut *mutex {
-        Some(m) => m.clone(),
-        None => {
-            // drop the mutex so we can set it in load_config()
-            drop(mutex);
-            load_config();
-            get_config()
-        }
+    if let Some(m) = &mut *mutex { m.clone() } else {
+        // drop the mutex so we can set it in load_config()
+        drop(mutex);
+        load_config();
+        get_config()
     }
 }
