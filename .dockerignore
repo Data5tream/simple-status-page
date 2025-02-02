@@ -2,10 +2,10 @@ db
 target
 config*.toml
 Dockerfile
-docker-compose.yml
+compose.yaml
 README.md
 *.log
 frontend/.idea/
 frontend/.svelte-kit/
-frontendbuild/
+frontend/build/
 frontend/node_modules/
