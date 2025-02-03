@@ -69,7 +69,18 @@ pub fn get_watchpoint_status() -> Result<Vec<WatchpointStatus>, ()> {
 
     for watchpoint in watchpoints {
         let status = match status_tree.get(&watchpoint.id) {
-            Ok(d) => bincode::deserialize::<u16>(&d.expect("empty data")).unwrap(),
+            Ok(d) => {
+                if let Some(vec) = d {
+                    // handle unknown status
+                    bincode::deserialize::<u16>(&vec).unwrap_or_else(|_| {
+                        warn!("failed to deserialize status for watchpoint: {watchpoint}");
+                        995
+                    })
+                } else {
+                    warn!("watchpoint {watchpoint} has missing status");
+                    990
+                }
+            }
             Err(_) => 999,
         };
 

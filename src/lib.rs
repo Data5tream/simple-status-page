@@ -1,6 +1,6 @@
 /*
    Simple Status Page - a simple service status app built with rust
-   Copyright (C) 2023-2024  Simon Stefan Barth
+   Copyright (C) 2023-2025  Simon Stefan Barth
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published
@@ -15,12 +15,11 @@
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-use config::Config;
-use log::warn;
+use log::{error, warn};
 use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
 
-use crate::app_config::get_config;
+use crate::app_config::{get_config, load_listener_config, ListenConfig};
 
 mod app_config;
 mod cache;
@@ -38,11 +37,8 @@ mod watcher;
 ///
 /// returns an error when no watchpoints are configured
 #[allow(clippy::result_unit_err)]
-pub fn setup_app() -> Result<Config, ()> {
+pub fn setup_app() -> Result<ListenConfig, ()> {
     setup_logger().expect("Error setting up logger!");
-
-    // load settings into singleton
-    let settings = get_config();
 
     // Load config file into cache, exit if no watchpoints are configured
     if cache::load_watchers().is_err() {
@@ -53,7 +49,14 @@ pub fn setup_app() -> Result<Config, ()> {
     // Create watcher thread
     watcher::setup();
 
-    Ok(settings)
+    // Grab HTTP server configuration
+    match load_listener_config() {
+        Ok(config) => Ok(config),
+        Err(err) => {
+            error!("Error loading listen config: {}", err);
+            Err(())
+        }
+    }
 }
 
 /// Setup logger

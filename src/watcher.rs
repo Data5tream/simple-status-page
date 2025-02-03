@@ -1,6 +1,7 @@
 use actix_rt::time::sleep;
 use log::{debug, error};
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 use std::time::Duration;
 
 use crate::cache::get_watchpoints;
@@ -20,6 +21,12 @@ pub struct Watchpoint {
 pub struct WatchpointStatus {
     pub watchpoint: Watchpoint,
     pub status: u16,
+}
+
+impl Display for Watchpoint {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{} ({})", self.name, self.id)
+    }
 }
 
 /// Check a URL endpoint

@@ -1,31 +1,33 @@
-use std::sync::Mutex;
+use std::sync::OnceLock;
 
-use config::Config;
+use config::{Config, ConfigError};
 
-static CONFIG: Mutex<Option<Config>> = Mutex::new(None);
-
-/// Load config into memory
-pub fn load_config() {
-    let config = Config::builder()
-        .add_source(config::File::with_name("config"))
-        // Add in settings from the environment (with a prefix of APP)
-        // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
-        .add_source(config::Environment::with_prefix("APP").separator("_"))
-        .build()
-        .expect("Invalid or missing config file");
-
-    let mut mutex = CONFIG.lock().unwrap();
-    *mutex = Some(config);
+pub struct ListenConfig {
+    pub host: String,
+    pub port: u16,
+    pub url: String,
 }
 
 /// Get config from memory
-pub fn get_config() -> Config {
-    let mut mutex = CONFIG.lock().unwrap();
+pub fn get_config() -> &'static Config {
+    static CONFIG: OnceLock<Config> = OnceLock::new();
+    CONFIG.get_or_init(|| {
+        Config::builder()
+            .add_source(config::File::with_name("config"))
+            // Add in settings from the environment (with a prefix of APP)
+            // Eg.. `APP_DEBUG=1 ./target/app` would set the `debug` key
+            .add_source(config::Environment::with_prefix("APP").separator("_"))
+            .build()
+            .expect("Invalid or missing config file")
+    })
+}
 
-    if let Some(m) = &mut *mutex { m.clone() } else {
-        // drop the mutex so we can set it in load_config()
-        drop(mutex);
-        load_config();
-        get_config()
-    }
+pub fn load_listener_config() -> Result<ListenConfig, ConfigError> {
+    let settings = get_config();
+
+    Ok(ListenConfig {
+        host: settings.get_string("webserver.host")?,
+        port: settings.get::<u16>("webserver.port")?,
+        url: settings.get_string("webserver.url")?,
+    })
 }
