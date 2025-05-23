@@ -2,8 +2,9 @@ services:
   app:
     image: ghcr.io/data5tream/simple-status-page:latest
     environment:
-      - APP_WEBSERVER_URL=http://127.0.0.1:8080
+      # The URL at which the web server is reachable
+      APP_WEBSERVER_URL: http://127.0.0.1:8000
     ports:
-      - "8080:8080"
+      - "8000:8000"
     volumes:
       - ./config.toml:/config.toml:ro

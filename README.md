@@ -1,13 +1,13 @@
 # Simple Status Page
 
-[![ci](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml)
-[![Lint backend](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
-[![Lint frontend](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml/badge.svg)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
-![GitHub tag (with filter)](https://img.shields.io/github/v/tag/data5tream/simple-status-page)
-![GitHub](https://img.shields.io/github/license/data5tream/simple-status-page)
+[![ci](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/ci.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml)
+[![Lint backend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-backend.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
+[![Lint frontend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-frontend.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
+![GitHub tag (with filter)](https://img.shields.io/github/v/tag/data5tream/simple-status-page?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/data5tream/simple-status-page?style=for-the-badge&color=blue)
 
 
-A web app that does status checking. Configured through a simple `config.toml` (or environment variables).
+> A web app that does status checking. Configured through a simple `config.toml` (or environment variables).
 
 ## Usage
 
@@ -21,7 +21,7 @@ docker compose up -d
 This will pull the latest `simple-status-page` image and run it. The status page will be available on port
 `8000`.
 
-It's recommended to run the app behind a reverse proxy that does TLS termination, like [caddy](https://caddyserver.com/).
+It's recommended to run the app behind a reverse proxy that does TLS termination.
 
 Configuration can also be done via environmental variables. The env vars take precedence over the config file.
 
@@ -57,7 +57,7 @@ pnpm run dev
 
 Simple Status Page - a simple service status app built with rust
 
-Copyright (C) 2023-2024  Simon Stefan Barth
+Copyright (C) 2023-2025  Simon Stefan Barth
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published
