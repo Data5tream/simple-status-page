@@ -1,0 +1,10 @@
+[webserver]
+host = "127.0.0.1"
+port = 8000
+url = "http://localhost:5173"
+[watcher]
+interval = 30
+watchlist = [
+    { id = "localurl", name = "Local dev", kind = "url", target = "http://localhost:8000/" },
+    { id = "localkw", name = "Local keyword", kind = "keyword", target = "http://localhost:8000/", keyword = "hello world!" }
+]

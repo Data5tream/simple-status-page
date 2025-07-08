@@ -27,6 +27,12 @@ Configuration can also be done via environmental variables. The env vars take pr
 
 ## Development
 
+Copy the example development config filter
+
+```shell
+cp config_dev_example.toml config.toml
+```
+
 ### Environment
 
 The following environment variables need to be set:
