@@ -12,12 +12,12 @@ RUN pnpm run build
 
 
 # Build healthcheck
-FROM rust:1.87-bookworm AS healthcheck-builder
+FROM rust:1.88-bookworm AS healthcheck-builder
 
 RUN cargo install simple-web-healthcheck
 
 # Build app
-FROM rust:1.87 AS backend
+FROM rust:1.88 AS backend
 WORKDIR /usr/src/status-page
 COPY ["Cargo.lock", "Cargo.toml", "./"]
 RUN cargo
