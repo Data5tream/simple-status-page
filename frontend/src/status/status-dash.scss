@@ -1,0 +1,33 @@
+.counters {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  gap: 16px;
+
+  li {
+    color: var(--c-background);
+    padding: 0;
+
+    span {
+      padding: 4px 8px;
+
+      &:first-child {
+        background: var(--bg-color);
+        padding: 4px 12px;
+      }
+
+      &:last-child {
+        background: var(--c-foreground);
+      }
+    }
+  }
+
+  .valid {
+    --bg-color: var(--c-green);
+  }
+
+  .invalid span {
+    --bg-color: var(--c-red);
+  }
+}
