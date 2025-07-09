@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { AppHeader } from './app-header';
 import { DataService, Watchpoint } from './data-service';
@@ -12,10 +12,10 @@ import { StatusList } from '../status/status-list';
   styleUrl: './app.scss'
 })
 export class App {
+  private dataService = inject(DataService);
+
   protected title = 'frontend';
   watchpoints: Array<Watchpoint> = [];
-
-  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     this.dataService.fetchData().subscribe(data => {

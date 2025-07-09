@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, switchMap, timer } from 'rxjs';
 
@@ -35,9 +35,9 @@ export async function loadStatus(): Promise<StatusData> {
   providedIn: 'root'
 })
 export class DataService {
-  private url = "http://127.0.0.1:8000/status";
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) { }
+  private url = "http://127.0.0.1:8000/status";
 
   fetchData(): Observable<Array<Watchpoint>> {
     return timer(0, 2000).pipe(switchMap(() => this.http.get<Array<Watchpoint>>(this.url)));
