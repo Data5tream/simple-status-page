@@ -27,7 +27,7 @@ export async function loadStatus(): Promise<StatusData> {
 
     const watchpoints = await result.json();
     return { watchpoints };
-  } catch (_) {
+  } catch {
     return Promise.reject(new Error("Unknown error"));
   }
 }

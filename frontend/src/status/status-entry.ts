@@ -4,7 +4,7 @@ import { Watchpoint } from "../app/data-service";
 import { StatusIcon } from "./status-icon";
 
 @Component({
-  selector: "status-entry",
+  selector: "ssp-status-entry",
   imports: [StatusIcon],
   templateUrl: "./status-entry.html",
   styleUrl: "./status-entry.scss",
