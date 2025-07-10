@@ -2,7 +2,7 @@
     max-width: 1400px;
     margin: 0 16px;
 
-    @media screen and (min-width: 1432px) {
+    @media screen and (width >= 1432px) {
       width: 100%;
       margin: 0 auto;
     }

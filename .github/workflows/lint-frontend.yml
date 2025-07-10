@@ -38,3 +38,5 @@ jobs:
         with:
           eslint: true
           eslint_dir: frontend/
+          stylelint: true
+          stylelint_dir: frontend/

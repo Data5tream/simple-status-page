@@ -4,7 +4,7 @@
     border: 1px solid var(--c-foreground);
     min-width: 300px;
 
-    &:after {
+    &::after {
       content: '';
       display: block;
       position: absolute;
@@ -18,13 +18,12 @@
       transition: all 0.3s;
     }
 
-    &:hover:after {
+    &:hover::after {
       width: 50%;
       height: 40%;
     }
 
     a {
-
       &,
       &:visited {
         color: var(--c-foreground);
