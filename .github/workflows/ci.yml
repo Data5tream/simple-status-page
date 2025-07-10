@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*'
-    paths-ignore:
-      - '**.md'
 
 env:
   REGISTRY: ghcr.io

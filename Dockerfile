@@ -1,4 +1,4 @@
-FROM node:23.7 AS frontend
+FROM node:24.0 AS frontend
 
 ENV APP_WEBSERVER_HOST="0.0.0.0" APP_WEBSERVER_PORT="8000" APP_WEBSERVER_URL="http://localhost:8000" \
     APP_LOG_LEVEL="info" APP_LOG_PATH="/var/log/status-page.log"
@@ -8,7 +8,7 @@ RUN npm install -g pnpm
 COPY frontend .
 RUN pnpm i
 ENV NODE_ENV=production PUBLIC_API_URL=""
-RUN pnpm run build
+RUN pnpm build
 
 
 # Build healthcheck
@@ -31,7 +31,7 @@ ENV APP_WEBSERVER_HOST="0.0.0.0" APP_WEBSERVER_PORT="8000"
 
 COPY --from=healthcheck-builder /usr/local/cargo/bin/simple-web-healthcheck /healthcheck
 COPY --from=backend /usr/local/cargo/bin/simple-status-page app
-COPY --from=frontend /frontend/build web
+COPY --from=frontend /frontend/dist/frontend/browser web
 
 EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=1s CMD ["/healthcheck", "http://127.0.0.1:8000"]
