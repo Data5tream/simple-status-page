@@ -3,7 +3,7 @@ import { Watchpoint } from "../app/data-service";
 import { StatusEntry } from "./status-entry";
 
 @Component({
-  selector: "status-list",
+  selector: "ssp-status-list",
   imports: [StatusEntry],
   templateUrl: "./status-list.html",
   styleUrl: "./status-list.scss",

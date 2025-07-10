@@ -1,7 +1,7 @@
 import { Component, computed, input } from "@angular/core";
 
 @Component({
-  selector: "status-icon",
+  selector: "ssp-status-icon",
   template: `<span [className]="statusClass()"></span>`,
   styles: `
     span {

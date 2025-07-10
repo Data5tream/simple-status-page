@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { AppHeader } from './app-header';
 import { DataService, Watchpoint } from './data-service';
@@ -6,12 +6,12 @@ import { StatusDash } from '../status/status-dash';
 import { StatusList } from '../status/status-list';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ssp-root',
   imports: [AppHeader, StatusDash, StatusList],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App {
+export class App implements OnInit {
   private dataService = inject(DataService);
 
   protected title = 'frontend';
