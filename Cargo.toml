@@ -1,10 +1,10 @@
 [package]
 name = "simple-status-page"
-version = "0.7.0"
-edition = "2021"
+version = "0.9.0"
+edition = "2024"
 authors = ["Simon Stefan Barth"]
 description = "A simple status page web app"
-license = "AGPL-3.0-or-later"
+license = "GPL-3.0-or-later"
 repository = "https://github.com/Data5tream/simple-status-page/"
 
 [lints.clippy]
