@@ -1,7 +1,7 @@
 [webserver]
 host = "127.0.0.1"
 port = 8000
-url = "http://localhost:5173"
+url = "http://localhost:4200"
 [watcher]
 interval = 30
 watchlist = [

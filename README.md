@@ -1,8 +1,8 @@
 # Simple Status Page
 
 [![ci](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/ci.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml)
-[![Lint backend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-backend.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
-[![Lint frontend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-frontend.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
+[![Lint backend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-backend.yml?style=for-the-badge&label=Backend%20lints))](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
+[![Lint frontend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-frontend.yml?style=for-the-badge&label=Frontend%20lints)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
 ![GitHub tag (with filter)](https://img.shields.io/github/v/tag/data5tream/simple-status-page?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/data5tream/simple-status-page?style=for-the-badge&color=blue)
 
@@ -33,14 +33,6 @@ Copy the example development config filter
 cp config_dev_example.toml config.toml
 ```
 
-### Environment
-
-The following environment variables need to be set:
-
-- `APP_WEBSERVER_HOST=0.0.0.0`
-- `APP_WEBSERVER_PORT=8000`
-- `APP_WEBSERVER_URL=http://localhost:5173`
-
 ### Backend
 
 [Actix Web](https://actix.rs/) with [sled](https://sled.rs/) as a datastore.
@@ -51,7 +43,7 @@ watchexec -w src -r cargo run
 
 ### Frontend
 
-[SvelteKit](https://kit.svelte.dev/) Webapp written in TypeScript. Set the `webserver.url` config value to your svelte
+[Angular](https://angular.dev/) webapp. Set the `webserver.url` config value to your svelte
 `host:port`, otherwise you will have CORS issues.
 
 ```shell
