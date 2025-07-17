@@ -16,10 +16,10 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 use log::{error, warn};
-use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
+use time::format_description::well_known::Rfc3339;
 
-use crate::app_config::{get_config, load_listener_config, ListenConfig};
+use crate::app_config::{ListenConfig, get_config, load_listener_config};
 
 mod app_config;
 mod cache;
@@ -53,7 +53,7 @@ pub fn setup_app() -> Result<ListenConfig, ()> {
     match load_listener_config() {
         Ok(config) => Ok(config),
         Err(err) => {
-            error!("Error loading listen config: {}", err);
+            error!("Error loading listen config: {err}");
             Err(())
         }
     }
