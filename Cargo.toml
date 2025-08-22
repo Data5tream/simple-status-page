@@ -1,6 +1,6 @@
 [package]
 name = "simple-status-page"
-version = "0.9.0"
+version = "0.9.1"
 edition = "2024"
 authors = ["Simon Stefan Barth"]
 description = "A simple status page web app"
