@@ -6,6 +6,6 @@ compose.yaml
 README.md
 *.log
 frontend/.idea/
-frontend/.svelte-kit/
 frontend/build/
+frontend/dist/
 frontend/node_modules/
