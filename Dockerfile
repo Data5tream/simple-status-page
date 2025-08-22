@@ -1,14 +1,20 @@
-FROM node:24.0 AS frontend
+FROM node:24.0 AS frontend-base
 
 ENV APP_WEBSERVER_HOST="0.0.0.0" APP_WEBSERVER_PORT="8000" APP_WEBSERVER_URL="http://localhost:8000" \
-    APP_LOG_LEVEL="info" APP_LOG_PATH="/var/log/status-page.log"
+    APP_LOG_LEVEL="info" APP_LOG_PATH="/var/log/status-page.log" NODE_ENV="production" PUBLIC_API_URL=""
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
+COPY frontend /frontend
 WORKDIR /frontend
-RUN npm install -g pnpm
-COPY frontend .
-RUN pnpm i
-ENV NODE_ENV=production PUBLIC_API_URL=""
-RUN pnpm build
+
+FROM frontend-base AS frontend-prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+FROM frontend-base AS frontend
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run build
 
 
 # Build healthcheck
@@ -20,7 +26,6 @@ RUN cargo install simple-web-healthcheck
 FROM rust:1.88 AS backend
 WORKDIR /usr/src/status-page
 COPY ["Cargo.lock", "Cargo.toml", "./"]
-RUN cargo
 COPY src src/
 RUN cargo install --path .
 

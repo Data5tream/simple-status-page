@@ -1,7 +1,7 @@
 # Simple Status Page
 
 [![ci](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/ci.yml?style=for-the-badge)](https://github.com/Data5tream/simple-status-page/actions/workflows/ci.yml)
-[![Lint backend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-backend.yml?style=for-the-badge&label=Backend%20lints))](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
+[![Lint backend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-backend.yml?style=for-the-badge&label=Backend%20lints)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-backend.yml)
 [![Lint frontend](https://img.shields.io/github/actions/workflow/status/data5tream/simple-status-page/lint-frontend.yml?style=for-the-badge&label=Frontend%20lints)](https://github.com/Data5tream/simple-status-page/actions/workflows/lint-frontend.yml)
 ![GitHub tag (with filter)](https://img.shields.io/github/v/tag/data5tream/simple-status-page?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/data5tream/simple-status-page?style=for-the-badge&color=blue)
