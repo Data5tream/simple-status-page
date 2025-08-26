@@ -19,7 +19,36 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.dataService.fetchData().subscribe(data => {
-      this.watchpoints = data;
+      this.watchpoints = data.sort(this.sortWatchpoints);
     });
+  }
+
+  /**
+   * Sort watchpoints by name, fallback to ID
+   *
+   * @param entryA - Entry A
+   * @param entryB - Entry B
+   **/
+  sortWatchpoints(entryA: Watchpoint, entryB: Watchpoint): number {
+    const a = entryA.watchpoint;
+    const b = entryB.watchpoint;
+
+    if (a.name > b.name) {
+      return 1;
+    }
+
+    if (a.name < b.name) {
+      return -1;
+    }
+
+    if (a.id > b.id) {
+      return 1;
+    }
+
+    if (a.id < b.id) {
+      return -1;
+    }
+
+    return 0;
   }
 }
