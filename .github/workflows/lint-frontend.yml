@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'frontend/**'
+      - '.github/workflows/lint-frontend.yml'
 
 permissions:
   checks: write
@@ -23,6 +24,9 @@ jobs:
 
       - name: Setup deno
         uses: denoland/setup-deno@v2
+
+      - name: Install dependencies
+        run: deno install
 
       - name: Check lints
         run: deno lint
