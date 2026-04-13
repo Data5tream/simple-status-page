@@ -15,3 +15,26 @@ h1::after {
   content: "_";
   animation: blink 2s infinite;
 }
+
+.status_bar {
+  display: flex;
+  gap: 16px;
+}
+
+.status_list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (width >= 768px) {
+  .status_list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 1280px) {
+  .status_list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
