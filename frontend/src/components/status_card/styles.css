@@ -36,3 +36,21 @@
   display: block;
   margin: 0.5rem 8px;
 }
+
+.status-icon {
+  display: inline-block;
+  height: 0.8em;
+  width: 0.8em;
+  border-radius: 50%;
+  background: var(--c-gray);
+}
+
+.status-icon.green {
+  background: var(--c-green);
+}
+.status-icon.yellow {
+  background: var(--c-yellow);
+}
+.status-icon.red {
+  background: var(--c-red);
+}
