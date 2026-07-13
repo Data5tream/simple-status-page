@@ -43,12 +43,11 @@ watchexec -w src -r cargo run
 
 ### Frontend
 
-[Angular](https://angular.dev/) webapp. Set the `webserver.url` config value to your svelte
-`host:port`, otherwise you will have CORS issues.
+[Preact](https://preactjs.com/) webapp.
 
 ```shell
-pnpm i
-pnpm run dev
+deno install
+deno task dev
 ```
 
 ## License
@@ -58,7 +57,7 @@ AGPL.
 
 Simple Status Page - a simple service status app built with rust
 
-Copyright (C) 2023-2025  Simon Stefan Barth
+Copyright (C) 2023-2026  Simon Stefan Barth
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
