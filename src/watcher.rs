@@ -1,14 +1,16 @@
+use std::{fmt::Display, sync::Arc, time::Duration};
+
 use actix_rt::time::sleep;
 use log::{debug, error};
 use serde::{Deserialize, Serialize};
-use std::fmt::Display;
-use std::time::Duration;
 
-use crate::cache::get_watchpoints;
-use crate::db::DB;
-use crate::get_config;
+use crate::{
+    cache::{SharedState, get_watchpoints},
+    db::DB,
+    get_config,
+};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Watchpoint {
     pub id: String,
     name: String,
@@ -164,8 +166,10 @@ async fn check_watchpoint(wp: Watchpoint) {
 }
 
 /// Get config from redis and ran watchpoints in parallel
-async fn cron_job() {
+async fn cron_job(state: Arc<SharedState>) {
     let settings = get_config();
+
+    // TODO: Implement handling with the state
 
     loop {
         // Get interval from cache
@@ -190,8 +194,8 @@ async fn cron_job() {
 }
 
 /// Set up the watcher thread
-pub fn setup() {
-    actix_rt::spawn(async {
-        cron_job().await;
+pub fn setup(state: Arc<SharedState>) {
+    actix_rt::spawn(async move {
+        cron_job(state).await;
     });
 }

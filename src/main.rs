@@ -1,6 +1,6 @@
 /*
    Simple Status Page - a simple service status app built with rust
-   Copyright (C) 2023-2025  Simon Stefan Barth
+   Copyright (C) 2023-2026  Simon Stefan Barth
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published
@@ -25,7 +25,7 @@ use simple_status_page::setup_app;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let listen_config = setup_app().expect("Failed to setup app");
+    let (listen_config, state) = setup_app().expect("Failed to setup app");
 
     info!(
         "Listening on {}:{} as {}",

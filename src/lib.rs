@@ -1,6 +1,6 @@
 /*
    Simple Status Page - a simple service status app built with rust
-   Copyright (C) 2023-2025  Simon Stefan Barth
+   Copyright (C) 2023-2026  Simon Stefan Barth
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU Affero General Public License as published
@@ -15,11 +15,13 @@
    You should have received a copy of the GNU Affero General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+use std::sync::Arc;
+
 use log::{error, warn};
 use time::OffsetDateTime;
 use time::format_description::well_known::Rfc3339;
 
-use crate::app_config::{ListenConfig, get_config, load_listener_config};
+use crate::{app_config::{ListenConfig, get_config, load_listener_config}, cache::SharedState};
 
 mod app_config;
 mod cache;
@@ -37,21 +39,21 @@ mod watcher;
 ///
 /// returns an error when no watchpoints are configured
 #[allow(clippy::result_unit_err)]
-pub fn setup_app() -> Result<ListenConfig, ()> {
+pub fn setup_app() -> Result<(ListenConfig, Arc<SharedState>), ()> {
     setup_logger().expect("Error setting up logger!");
 
     // Load config file into cache, exit if no watchpoints are configured
-    if cache::load_watchers().is_err() {
+    let Ok(state) = cache::load_watchers() else {
         warn!("No watchpoints configured! See README.md for instructions");
         return Err(());
-    }
+    };
 
     // Create watcher thread
-    watcher::setup();
+    watcher::setup(state.clone());
 
     // Grab HTTP server configuration
     match load_listener_config() {
-        Ok(config) => Ok(config),
+        Ok(config) => Ok((config, state)),
         Err(err) => {
             error!("Error loading listen config: {err}");
             Err(())

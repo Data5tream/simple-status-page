@@ -1,11 +1,41 @@
+use std::sync::{
+    Arc, RwLock,
+    atomic::{AtomicU16, Ordering},
+};
+
 use log::warn;
 
 use crate::db::DB;
 use crate::get_config;
 use crate::watcher::{Watchpoint, WatchpointStatus};
 
+type Status = u16;
+
+/// Internal application state
+#[derive(Clone)]
+struct State {
+    watchpoints: Arc<Vec<Watchpoint>>,
+    statuses: Arc<[AtomicU16]>,
+}
+
+/// State wrapper
+pub struct SharedState {
+    state: RwLock<Arc<State>>,
+}
+
+impl SharedState {
+    /// Get current status by watchpoint ID
+    fn load_status(&self, idx: usize) -> Status {
+        let state = self.state.read().unwrap();
+        state.statuses[idx].load(Ordering::Relaxed)
+    }
+}
+
 /// Load the app configuration into memory
-pub fn load_watchers() -> Result<(), ()> {
+///
+/// Returns the [Arc] to the [SharedState] that should be passed to all consumers that need access
+/// to the applications state
+pub fn load_watchers() -> Result<Arc<SharedState>, ()> {
     let settings = get_config();
 
     let raw_watchlist = settings
@@ -23,21 +53,20 @@ pub fn load_watchers() -> Result<(), ()> {
         watchlist.push(i.clone().try_deserialize().expect("invalid config value"));
     }
 
-    let watchpoint_tree = DB
-        .open_tree("watchpoints")
-        .expect("failed to open watchpoints!");
+    let watcher_count = watchlist.len();
 
-    for w in watchlist {
-        watchpoint_tree
-            .insert(&w.id, bincode::serialize(&w).expect("serialization error"))
-            .expect("failed to insert into db");
-    }
+    // Create state
+    let initial = Arc::new(State {
+        watchpoints: Arc::new(watchlist),
+        statuses: Arc::from((0..watcher_count).map(|_| AtomicU16::new(0)).collect::<Vec<_>>()),
+    });
 
-    Ok(())
+    Ok(Arc::new(SharedState { state: RwLock::new(initial) }))
 }
 
 /// Get a vector with all registered watchpoints
 pub fn get_watchpoints() -> Result<Vec<Watchpoint>, ()> {
+    /// TODO: Get this from shared state
     let watchpoint_tree = DB
         .open_tree("watchpoints")
         .expect("failed to open watchpoints!");
@@ -63,6 +92,7 @@ pub fn get_watchpoint_status() -> Result<Vec<WatchpointStatus>, ()> {
     };
 
     let mut data: Vec<WatchpointStatus> = Vec::new();
+    /// TODO: Get this from shared state
     let status_tree = DB
         .open_tree("watchpoint-status")
         .expect("failed to open watchpoint-status!");
