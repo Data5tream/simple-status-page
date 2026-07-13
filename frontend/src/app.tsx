@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 
 import { AppTitle } from "./components/app_title.tsx";
+import { StatusCard } from "./components/status_card/index.tsx";
 import { StatusOverview } from "./components/status_overview/index.tsx";
 import { LoadingOverlay } from "./components/loading_overlay/index.tsx";
 import { LoadingSpinner } from "./components/loading_spinner/index.tsx";
@@ -8,7 +9,6 @@ import { LoadingSpinner } from "./components/loading_spinner/index.tsx";
 import { type CurrentStatus } from "./data.ts";
 
 import "./app.css";
-import { StatusCard } from "./components/status_card/index.tsx";
 
 const url = "http://127.0.0.1:8000/status";
 const updateMs = 2000;
@@ -40,8 +40,8 @@ export function App() {
 
       const json = await res.json();
       setStatus({ watchers: json } as CurrentStatus);
-    } catch (err: any) {
-      if (err.name !== "AbortError") {
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name !== "AbortError") {
         setError(err.message ?? String(err));
       }
     } finally {
