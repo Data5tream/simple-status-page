@@ -48,9 +48,11 @@
 .status-icon.green {
   background: var(--c-green);
 }
+
 .status-icon.yellow {
   background: var(--c-yellow);
 }
+
 .status-icon.red {
   background: var(--c-red);
 }

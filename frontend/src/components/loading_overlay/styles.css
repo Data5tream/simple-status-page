@@ -12,7 +12,8 @@
   align-items: center;
   z-index: 100;
 }
-.loading:before {
+
+.loading::before {
   content: " ";
   background: #333;
   opacity: 0.5;

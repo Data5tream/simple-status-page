@@ -5,5 +5,5 @@ interface LoadingSpinnerProps {
 }
 
 export function LoadingSpinner({ color }: LoadingSpinnerProps) {
-  return <div class="loading_spinner" style={color} />;
+  return <div class="loading-spinner" style={color} />;
 }

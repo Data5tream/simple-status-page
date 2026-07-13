@@ -83,11 +83,11 @@ export function App() {
 
     return (
       <main>
-        <div class="status_bar">
+        <div class="status-bar">
           <StatusOverview data={status} />
           {loading && <LoadingSpinner color="#333" />}
         </div>
-        <div class="status_list">
+        <div class="status-list">
           {status.watchers.map((w) => (
             <StatusCard key={w.watchpoint.id} data={w} />
           ))}

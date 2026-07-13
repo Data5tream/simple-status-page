@@ -16,25 +16,25 @@ h1::after {
   animation: blink 2s infinite;
 }
 
-.status_bar {
+.status-bar {
   display: flex;
   gap: 16px;
 }
 
-.status_list {
+.status-list {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
 }
 
 @media (width >= 768px) {
-  .status_list {
+  .status-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (width >= 1280px) {
-  .status_list {
+  .status-list {
     grid-template-columns: repeat(3, 1fr);
   }
 }
