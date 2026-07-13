@@ -1,0 +1,58 @@
+.watchpoint {
+  position: relative;
+  flex: 1 0 0;
+  border: 1px solid var(--c-foreground);
+  min-width: 300px;
+}
+
+.watchpoint::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 2px solid var(--c-foreground);
+  border-top: 0;
+  border-left: 0;
+  width: 33.3334%;
+  height: 25%;
+  transition: all 0.3s;
+}
+
+.watchpoint:hover::after {
+  width: 50%;
+  height: 40%;
+}
+
+.watchpoint > h4 {
+  background: var(--c-foreground);
+  color: var(--c-background);
+  letter-spacing: 0.15em;
+  margin: 0;
+  padding: 8px;
+}
+
+.watchpoint > span {
+  display: block;
+  margin: 0.5rem 8px;
+}
+
+.status-icon {
+  display: inline-block;
+  height: 0.8em;
+  width: 0.8em;
+  border-radius: 50%;
+  background: var(--c-gray);
+}
+
+.status-icon.green {
+  background: var(--c-green);
+}
+
+.status-icon.yellow {
+  background: var(--c-yellow);
+}
+
+.status-icon.red {
+  background: var(--c-red);
+}

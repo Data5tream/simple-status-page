@@ -22,7 +22,7 @@ body {
   padding: 0;
   background: var(--c-background);
   color: var(--c-foreground);
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 .app {

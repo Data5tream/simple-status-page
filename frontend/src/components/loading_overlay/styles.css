@@ -1,0 +1,26 @@
+.loading {
+  position: absolute;
+  color: var(--c-white);
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.loading::before {
+  content: " ";
+  background: #333;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 100dvw;
+  z-index: -10;
+}

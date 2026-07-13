@@ -1,47 +1,23 @@
 {
   "name": "frontend",
-  "version": "0.9.1",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint",
-    "lint:styles": "stylelint '**/*.scss'"
-  },
-  "type": "module",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint:styles": "stylelint src/**/*.css"
+  },
   "dependencies": {
-    "@angular/common": "^20.2.1",
-    "@angular/compiler": "^20.2.1",
-    "@angular/core": "^20.2.1",
-    "@angular/forms": "^20.2.1",
-    "@angular/platform-browser": "^20.2.1",
-    "@angular/router": "^20.2.1",
-    "rxjs": "~7.8.2",
-    "tslib": "^2.8.1",
-    "zone.js": "~0.15.1"
+    "preact": "^10.29.0"
   },
   "devDependencies": {
-    "@angular/build": "^20.2.0",
-    "@angular/cli": "^20.2.0",
-    "@angular/compiler-cli": "^20.2.1",
-    "@eslint/js": "^9.33.0",
-    "@types/jasmine": "~5.1.9",
-    "angular-eslint": "20.2.0",
-    "eslint": "^9.33.0",
-    "jasmine-core": "~5.9.0",
-    "karma": "~6.4.4",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.1",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
-    "stylelint": "^16.23.1",
-    "stylelint-config-standard": "^39.0.0",
-    "stylelint-config-standard-scss": "^15.0.1",
-    "typescript": "~5.9.2",
-    "typescript-eslint": "8.40.0"
-  },
-  "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"
+    "@preact/preset-vite": "^2.10.4",
+    "@types/node": "^24.12.0",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.1"
+  }
 }

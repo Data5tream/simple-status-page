@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'frontend/**'
+      - '.github/workflows/lint-frontend.yml'
 
 permissions:
   checks: write
@@ -19,21 +20,19 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
+      - name: Setup deno
+        uses: denoland/setup-deno@v2
 
-      - name: Enable PNPM
-        run: corepack enable
+      - name: Install dependencies
+        run: deno install
 
-      - name: Install Node.js dependencies
-        run: pnpm i
+      - name: Check lints
+        run: deno lint
 
-      - name: Run ESLint
-        run: pnpm lint
+      - name: Check format
+        run: deno fmt --check
 
       - name: Run stylelint
-        run: pnpm lint:styles
+        run: deno task lint:styles
