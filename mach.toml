@@ -1,0 +1,30 @@
+[backend]
+script = "cargo run"
+desc = "Run backend in watch mode"
+
+[lint_backend]
+script = "cargo clippy"
+desc = "Lint rust code with clippy"
+
+[format_backend]
+script = "cargo fmt"
+desc = "Format rust code with clippy"
+
+[frontend]
+script = "deno task dev"
+desc = "Run frontend in watch mode"
+options.working_directory = "frontend"
+
+[lint_frontend]
+script = "deno lint"
+desc = "Lint TypeScript code with deno"
+options.working_directory = "frontend"
+
+[format_frontend]
+script = "deno fmt"
+desc = "Format TypeScript code with deno"
+options.working_directory = "frontend"
+
+[build_image]
+script = "podman build --format docker -t ghcr.io/data5tream/simple-status-page:latest ."
+desc = "Build local image with podman"
