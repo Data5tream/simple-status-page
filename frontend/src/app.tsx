@@ -10,7 +10,10 @@ import { type CurrentStatus } from "./data.ts";
 
 import "./app.css";
 
-const url = "http://127.0.0.1:8000/status";
+const url =
+  (import.meta.env.PUBLIC_API_URL != undefined
+    ? import.meta.env.PUBLIC_API_URL
+    : "http://127.0.0.1:8000") + "/status";
 const updateMs = 2000;
 
 export function App() {
